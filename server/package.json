@@ -1,0 +1,28 @@
+{
+  "devDependencies": {
+    "express": "^4.15.3"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "name": "package.json",
+  "version": "1.0.0",
+  "description": "Package json for the server component",
+  "main": "server.js",
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/happyahluwalia/angular_auth0.git"
+  },
+  "keywords": [
+    "angular2",
+    "auth0",
+    "express"
+  ],
+  "author": "Harpreet",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/happyahluwalia/angular_auth0/issues"
+  },
+  "homepage": "https://github.com/happyahluwalia/angular_auth0#readme"
+}
