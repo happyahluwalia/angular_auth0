@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { PublicDealsComponent } from './deals/public-deals.component';
 import { PrivateDealsComponent } from './deals/private-deals.component';
+import { DealsService } from "app/deals/deals.service";
 
 @NgModule({
   declarations: [
@@ -14,7 +15,7 @@ import { PrivateDealsComponent } from './deals/private-deals.component';
   imports: [
     BrowserModule
   ],
-  providers: [],
+  providers: [DealsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
