@@ -8,13 +8,16 @@ import { Deal } from "app/deals/deal.model";
   styleUrls: ['./public-deals.component.css']
 })
 export class PublicDealsComponent implements OnInit {
- publicDeals: Deal[];
+ publicDeals: Deal[] = [];
  
   constructor(private dealService:DealsService) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.dealService.getPublicDeals()
-        .subscribe(deals => this.publicDeals = deals);
+      .then(deals => this.publicDeals = deals);
   }
-
+  
+  purchase(item){
+    alert("You bought the: " + item.name);
+  }
 }

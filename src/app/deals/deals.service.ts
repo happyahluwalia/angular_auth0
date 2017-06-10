@@ -1,24 +1,34 @@
 import { Injectable } from '@angular/core';
-import { Observable } from "rxjs/Observable";
-import { Http, Response } from '@angular/http';
-import 'rxjs/Rx';
+import { Headers, Http, Response } from '@angular/http';
+import { AuthHttp } from 'angular2-jwt';
+
+import 'rxjs/add/operator/toPromise';
+import { Deal } from "app/deals/deal.model";
 
 @Injectable()
 export class DealsService {
-  private privateDealsUrl = 'http://localhost:3000/api/deals/private';
-  private publicDealsUrl = 'http://localhost:3000/api/deals/public';
+  private publicDealsUrl = 'http://localhost:3001/api/deals/public';
+  private privateDealsUrl = 'http://localhost:3001/api/deals/private';
 
-  constructor(private http: Http) { }
-  
-  public getPublicDeals(){
-    return this.http.get(this.privateDealsUrl)
-          .map(response => response.json())
-          .catch((error: Response ) => {
-            throw Observable.throw(error.json());
-          });
+  constructor(private http: Http, private authHttp: AuthHttp) { }
+  getPublicDeals() {
+    return this.http
+      .get(this.publicDealsUrl)
+      .toPromise()
+      .then(response => response.json() as Deal[])
+      .catch(this.handleError);
   }
 
-  public getPrivateDeals(){
-    return Observable.throw('error');
+  getPrivateDeals() {
+    return this.authHttp
+      .get(this.privateDealsUrl)
+      .toPromise()
+      .then(response => response.json() as Deal[])
+      .catch(this.handleError);
+  }
+
+  private handleError(error: any): Promise<any> {
+    console.error('An error occurred', error);
+    return Promise.reject(error.message || error);
   }
 }
