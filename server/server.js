@@ -1,5 +1,22 @@
 var express = require('express');
 const app = express();
+//Integration with Auth0 apis
+var jwt = require('express-jwt');
+var jwks = require('jwks-rsa');
+
+var jwtCheck = jwt({
+    secret: jwks.expressJwtSecret({
+        cache: true,
+        rateLimit: true,
+        jwksRequestsPerMinute: 5,
+        jwksUri: "https://happysingh.auth0.com/.well-known/jwks.json"
+    }),
+    audience: 'https://localhost:4200/',
+    issuer: "https://happysingh.auth0.com/",
+    algorithms: ['RS256']
+});
+
+
 // const cors = require('cors');
 const bodyParser = require('body-parser');
 
@@ -11,8 +28,9 @@ app.get('/api/deals/public', function(req,res,next){
 });
 
 //Private route for deals
-//TODO : Need to protect the private routes. Check for token
-app.get('/api/deals/private', function(req,res,next){
+//We invoke the jwtCheck only for private deals and not for public
+//This way only private deals are protected
+app.get('/api/deals/private', jwtCheck, function(req,res,next){
     let privateDeals = Deals.privateDeals;
     res.json(privateDeals);
 });
